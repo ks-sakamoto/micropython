@@ -46,27 +46,27 @@ void exit_error(const char *what)
    exit(1);
 }
 
-STATIC mp_obj_t mod_uzlibdef_def(mp_obj_t ac, mp_obj_t av1, mp_obj_t av2)
+STATIC mp_obj_t mod_uzlibdef_def(mp_obj_t argv1, mp_obj_t argv2))
 {
     FILE *fin, *fout;
     unsigned int len;
     unsigned char *source;
 
-    int argc = mp_obj_get_int(ac);
+    //int argc = mp_obj_get_int(ac);
     // 型キャストhttps://www.sejuku.net/blog/25737
-    char *argv1 = (char*)av1;
-    char *argv2 = (char*)av2;
+    // char *argv1 = (char*)av1;
+    // char *argv2 = (char*)av2;
 
     printf("tgzip - example from the uzlib library\n\n");
 
-    if (argc < 3)
-    {
-       printf(
-          "Syntax: tgunzip <source> <destination>\n\n"
-          "Both input and output are kept in memory, so do not use this on huge files.\n");
+    // if (argc < 3)
+    // {
+    //    printf(
+    //       "Syntax: tgunzip <source> <destination>\n\n"
+    //       "Both input and output are kept in memory, so do not use this on huge files.\n");
 
-       return mp_obj_new_int(1);
-    }
+    //    return mp_obj_new_int(1);
+    // }
 
     /* -- open files -- */
 
