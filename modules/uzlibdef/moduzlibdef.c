@@ -38,7 +38,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "uzlib/uzlib.h"
+#include "uzlib.h"
 
 void exit_error(const char *what)
 {
@@ -158,4 +158,4 @@ const mp_obj_module_t mp_module_uzlibdef = {
     .globals = (mp_obj_dict_t*)&mp_module_uzlibdef_globals,
 };
 
-MP_REGISTER_MODULE(MP_QSTR_uzlibdef, mp_moduel_uzlibdef, 1);
+MP_REGISTER_MODULE(MP_QSTR_uzlibdef, mp_module_uzlibdef, 1);

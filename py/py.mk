@@ -198,7 +198,6 @@ PY_EXTMOD_O_BASENAME = \
 	extmod/moduwebsocket.o \
 	extmod/modwebrepl.o \
 	extmod/modframebuf.o \
-	extmod/moduzlibdef.o \
 	extmod/vfs.o \
 	extmod/vfs_blockdev.o \
 	extmod/vfs_reader.o \
