@@ -38,7 +38,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "uzlib.h"
+#include "uzlib/uzlib.h"
 
 void exit_error(const char *what)
 {
@@ -46,11 +46,16 @@ void exit_error(const char *what)
    exit(1);
 }
 
-STATIC mp_int_t mod_uzlibdef_def(int argc, char *argv[])
+STATIC mp_obj_t mod_uzlibdef_def(mp_obj_t ac, mp_obj_t av1, mp_obj_t av2)
 {
     FILE *fin, *fout;
     unsigned int len;
     unsigned char *source;
+
+    int argc = mp_obj_get_int(ac);
+    // 型キャストhttps://www.sejuku.net/blog/25737
+    char *argv1 = (char*)av1;
+    char *argv2 = (char*)av2;
 
     printf("tgzip - example from the uzlib library\n\n");
 
@@ -60,14 +65,14 @@ STATIC mp_int_t mod_uzlibdef_def(int argc, char *argv[])
           "Syntax: tgunzip <source> <destination>\n\n"
           "Both input and output are kept in memory, so do not use this on huge files.\n");
 
-       return 1;
+       return mp_obj_new_int(1);
     }
 
     /* -- open files -- */
 
-    if ((fin = fopen(argv[1], "rb")) == NULL) exit_error("source file");
+    if ((fin = fopen(argv1, "rb")) == NULL) exit_error("source file");
 
-    if ((fout = fopen(argv[2], "wb")) == NULL) exit_error("destination file");
+    if ((fout = fopen(argv2, "wb")) == NULL) exit_error("destination file");
 
     /* -- read source -- */
     // ファイルの読み書き位置を移動する, https://www.k-cube.co.jp/wakaba/server/func/fseek.html
@@ -139,7 +144,7 @@ STATIC mp_int_t mod_uzlibdef_def(int argc, char *argv[])
     return 0;
 }
 
-STATIC MP_DEFINE_CONST_FUN_OBJ_2(mod_uzlibdef_def_obj, mod_uzlibdef_def);
+STATIC MP_DEFINE_CONST_FUN_OBJ_3(mod_uzlibdef_def_obj, mod_uzlibdef_def);
 
 STATIC const mp_rom_map_elem_t mp_module_uzlibdef_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR__name__), MP_ROM_QSTR(MP_QSTR_uzlibdef) },
