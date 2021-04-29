@@ -46,7 +46,7 @@ void exit_error(const char *what)
    exit(1);
 }
 
-STATIC mp_obj_t mod_uzlibdef_def(mp_obj_t argv1, mp_obj_t argv2))
+STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t argv1, mp_obj_t argv2))
 {
     FILE *fin, *fout;
     unsigned int len;
@@ -144,11 +144,11 @@ STATIC mp_obj_t mod_uzlibdef_def(mp_obj_t argv1, mp_obj_t argv2))
     return 0;
 }
 
-STATIC MP_DEFINE_CONST_FUN_OBJ_3(mod_uzlibdef_def_obj, mod_uzlibdef_def);
+STATIC MP_DEFINE_CONST_FUN_OBJ_3(mod_uzlibdef_comp_obj, mod_uzlibdef_comp);
 
 STATIC const mp_rom_map_elem_t mp_module_uzlibdef_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR__name__), MP_ROM_QSTR(MP_QSTR_uzlibdef) },
-    { MP_ROM_QSTR(MP_QSTR_def), MP_ROM_PTR(&mod_uzlibdef_def_obj) },
+    { MP_ROM_QSTR(MP_QSTR_comp), MP_ROM_PTR(&mod_uzlibdef_comp_obj) },
 };
 
 STATIC MP_DEFINE_CONST_DICT(mp_module_uzlibdef_globals, mp_module_uzlibdef_globals_table);
