@@ -46,16 +46,15 @@ void exit_error(const char *what)
    exit(1);
 }
 
-STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t argv1, mp_obj_t argv2))
+STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t argv1, mp_obj_t argv2)
 {
     FILE *fin, *fout;
     unsigned int len;
     unsigned char *source;
 
-    //int argc = mp_obj_get_int(ac);
     // 型キャストhttps://www.sejuku.net/blog/25737
-    // char *argv1 = (char*)av1;
-    // char *argv2 = (char*)av2;
+    char *argv1 = (char*)av1;
+    char *argv2 = (char*)av2;
 
     printf("tgzip - example from the uzlib library\n\n");
 
