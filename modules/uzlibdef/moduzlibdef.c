@@ -44,15 +44,16 @@ void exit_error(const char *what)
    exit(1);
 }
 
-STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1, mp_obj_t av2)
+STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1)
 {
-    FILE *fin, *fout;
+    // FILE *fin, *fout;
     unsigned int len;
     unsigned char *source;
+    mp_obj_t ret;
 
     // 型キャストhttps://qiita.com/tkinjo1/items/26c866b2edf22b35d363
     const char *argv1 = mp_obj_str_get_str(av1);
-    const char *argv2 = mp_obj_str_get_str(av2);
+    // const char *argv2 = mp_obj_str_get_str(av2);
 
     printf("tgzip - example from the uzlib library\n\n");
 
@@ -67,34 +68,35 @@ STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1, mp_obj_t av2)
 
     /* -- open files -- */
     puts(argv1);
-    if ((fin = fopen(argv1, "rb")) == NULL) exit_error("source file");
-    puts(argv2);
-    if ((fout = fopen(argv2, "wb")) == NULL) exit_error("destination file");
+    // if ((fin = fopen(argv1, "rb")) == NULL) exit_error("source file");
+    // puts(argv2);
+    // if ((fout = fopen(argv2, "wb")) == NULL) exit_error("destination file");
 
     /* -- read source -- */
     // ファイルの読み書き位置を移動する, https://www.k-cube.co.jp/wakaba/server/func/fseek.html
     // int fseek(FILE *fp, long offset, int origin)(FILEポインタ, 移動バイト数, SEEK_END（ファイルの終端）)
     // ファイルポインタを末尾まで移動
-    fseek(fin, 0, SEEK_END);
+    //fseek(fin, 0, SEEK_END);
     // ファイルの読み書き位置を取得する, https://www.k-cube.co.jp/wakaba/server/func/ftell.html
     // ftell(FILE *stream)
-    len = ftell(fin);
+    len = strlen(argv1);
+    printf("%d\n", len);
     // SEEK_SET（ファイルの先頭から）
     // ファイルポインタを先頭まで移動
-    fseek(fin, 0, SEEK_SET);
+    // fseek(fin, 0, SEEK_SET);
     // malloc(), 動的メモリを確保する関数, https://www.sejuku.net/blog/25002
     // 引数lenのバイト数分のメモリを確保, ファイル内の文字数分メモリ確保
-    source = (unsigned char *)malloc(len);
+    source = (unsigned char *)argv1;
 
-    if (source == NULL) exit_error("memory");
+    // if (source == NULL) exit_error("memory");
     // ファイルの読み込み, http://9cguide.appspot.com/17-02.html
-    // fread(読み込む変数のポインタ, 1項目のサイズ, 項目数, ファイルポインタ)
-    if (fread(source, 1, len, fin) != len){
-        free(source);
-        exit_error("read");
-    }
+    // fread(格納先のバッファ(ポインタ), 1項目のサイズ, 項目数, ファイルポインタ)
+    // if (fread(source, 1, len, fin) != len){
+    //     free(source);
+    //     exit_error("read");
+    // }
 
-    fclose(fin);
+    // fclose(fin);
 
     /* -- compress data -- */
 
@@ -131,22 +133,23 @@ STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1, mp_obj_t av2)
     // fwrite(書き込む変数アドレス,1項目のサイズ,項目数,ファイルポインタ)
     // ファイルの書き込み, http://9cguide.appspot.com/17-02.html
     // ここが本体
-    fwrite(comp.out.outbuf, 1, comp.out.outlen, fout);
+    // fwrite(comp.out.outbuf, 1, comp.out.outlen, fout);
     printf("%s\n", comp.out.outbuf);
-    
+    ret = mp_obj_new_bytes(comp.out.outbuf, comp.out.outlen);
+
     // フッタ
    //  unsigned crc = ~uzlib_crc32(source, len, ~0);
    //  fwrite(&crc, sizeof(crc), 1, fout);
    //  fwrite(&len, sizeof(len), 1, fout);
 
-    fclose(fout);
-    free(source);
+    // fclose(fout);
+    // free(source);
     free(comp.hash_table);
 
-    return mp_obj_new_int(comp.out.outlen);
+    return ret;
 }
 
-STATIC MP_DEFINE_CONST_FUN_OBJ_2(mod_uzlibdef_comp_obj, mod_uzlibdef_comp);
+STATIC MP_DEFINE_CONST_FUN_OBJ_1(mod_uzlibdef_comp_obj, mod_uzlibdef_comp);
 
 STATIC const mp_rom_map_elem_t mp_module_uzlibdef_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR__name__), MP_ROM_QSTR(MP_QSTR_uzlibdef) },
