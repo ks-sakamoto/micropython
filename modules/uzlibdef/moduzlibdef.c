@@ -91,7 +91,10 @@ STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1, mp_obj_t av2)
     if (source == NULL) exit_error("memory");
     // ファイルの読み込み, http://9cguide.appspot.com/17-02.html
     // fread(読み込む変数のポインタ, 1項目のサイズ, 項目数, ファイルポインタ)
-    if (fread(source, 1, len, fin) != len) exit_error("read");
+    if (fread(source, 1, len, fin) != len){
+        free(source);
+        exit_error("read");
+    }
 
     fclose(fin);
 
@@ -139,8 +142,10 @@ STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1, mp_obj_t av2)
    //  fwrite(&len, sizeof(len), 1, fout);
 
     fclose(fout);
+    free(source);
+    free(comp.hash_table);
 
-    return 0;
+    return mp_obj_new_int(comp.out.outlen);
 }
 
 STATIC MP_DEFINE_CONST_FUN_OBJ_2(mod_uzlibdef_comp_obj, mod_uzlibdef_comp);
