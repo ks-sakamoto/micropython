@@ -40,8 +40,8 @@
 
 void exit_error(const char *what)
 {
-   printf("ERROR: %s\n", what);
-   exit(1);
+    printf("ERROR: %s\n", what);
+    exit(1);
 }
 
 STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1)
@@ -67,7 +67,7 @@ STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1)
     // }
 
     /* -- open files -- */
-    puts(argv1);
+    // puts(argv1);
     // if ((fin = fopen(argv1, "rb")) == NULL) exit_error("source file");
     // puts(argv2);
     // if ((fout = fopen(argv2, "wb")) == NULL) exit_error("destination file");
@@ -101,8 +101,8 @@ STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1)
     /* -- compress data -- */
 
     struct uzlib_comp comp = {0};
-    comp.dict_size = 32768;  // 構造体compのdict_sizeの初期化
-    comp.hash_bits = 12;     // 構造体compのhash_bitsの初期化
+    comp.dict_size = 32768; // 構造体compのdict_sizeの初期化
+    comp.hash_bits = 12;    // 構造体compのhash_bitsの初期化
     // size_tはオブジェクトのバイト数を表現できる程度に十分に大きい符号なし整数型
     // sizeofは変数や型のメモリサイズを調べるための演算子, メモリサイズをバイト単位で返す
     size_t hash_size = sizeof(uzlib_hash_entry_t) * (1 << comp.hash_bits);
@@ -122,25 +122,25 @@ STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1)
     // 指定したストリームに文字を出力
     // ここがヘッダ
     // https://www.rainorshine.asia/2016/06/05/post2696.html#toc2, https://qiita.com/mpyw/items/eb6ef5e444c2250361b5
-   //  putc(0x1f, fout); // 1バイト目31, 00011111, 
-   //  putc(0x8b, fout); 
-   //  putc(0x08, fout);
-   //  putc(0x00, fout); // FLG:ビット 0 ～ 4 FCHECK （CMF と FLG のチェックビット）ビット 5 FDICT （プリセット辞書）ビット 6 ～ 7 FLEVEL （圧縮レベル
-   //  int mtime = 0;
-   //  fwrite(&mtime, sizeof(mtime), 1, fout);
-   //  putc(0x04, fout); // XFL:圧縮レベル
-   //  putc(0x03, fout); // OS
+    //  putc(0x1f, fout); // 1バイト目31, 00011111,
+    //  putc(0x8b, fout);
+    //  putc(0x08, fout);
+    //  putc(0x00, fout); // FLG:ビット 0 ～ 4 FCHECK （CMF と FLG のチェックビット）ビット 5 FDICT （プリセット辞書）ビット 6 ～ 7 FLEVEL （圧縮レベル
+    //  int mtime = 0;
+    //  fwrite(&mtime, sizeof(mtime), 1, fout);
+    //  putc(0x04, fout); // XFL:圧縮レベル
+    //  putc(0x03, fout); // OS
     // fwrite(書き込む変数アドレス,1項目のサイズ,項目数,ファイルポインタ)
     // ファイルの書き込み, http://9cguide.appspot.com/17-02.html
     // ここが本体
     // fwrite(comp.out.outbuf, 1, comp.out.outlen, fout);
-    printf("%s\n", comp.out.outbuf);
+    // printf("%s\n", comp.out.outbuf);
     ret = mp_obj_new_bytes(comp.out.outbuf, comp.out.outlen);
 
     // フッタ
-   //  unsigned crc = ~uzlib_crc32(source, len, ~0);
-   //  fwrite(&crc, sizeof(crc), 1, fout);
-   //  fwrite(&len, sizeof(len), 1, fout);
+    //  unsigned crc = ~uzlib_crc32(source, len, ~0);
+    //  fwrite(&crc, sizeof(crc), 1, fout);
+    //  fwrite(&len, sizeof(len), 1, fout);
 
     // fclose(fout);
     // free(source);
@@ -152,15 +152,15 @@ STATIC mp_obj_t mod_uzlibdef_comp(mp_obj_t av1)
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(mod_uzlibdef_comp_obj, mod_uzlibdef_comp);
 
 STATIC const mp_rom_map_elem_t mp_module_uzlibdef_globals_table[] = {
-    { MP_ROM_QSTR(MP_QSTR__name__), MP_ROM_QSTR(MP_QSTR_uzlibdef) },
-    { MP_ROM_QSTR(MP_QSTR_comp), MP_ROM_PTR(&mod_uzlibdef_comp_obj) },
+    {MP_ROM_QSTR(MP_QSTR__name__), MP_ROM_QSTR(MP_QSTR_uzlibdef)},
+    {MP_ROM_QSTR(MP_QSTR_comp), MP_ROM_PTR(&mod_uzlibdef_comp_obj)},
 };
 
 STATIC MP_DEFINE_CONST_DICT(mp_module_uzlibdef_globals, mp_module_uzlibdef_globals_table);
 
 const mp_obj_module_t mp_module_uzlibdef = {
-    .base = { &mp_type_module },
-    .globals = (mp_obj_dict_t*)&mp_module_uzlibdef_globals,
+    .base = {&mp_type_module},
+    .globals = (mp_obj_dict_t *)&mp_module_uzlibdef_globals,
 };
 
 MP_REGISTER_MODULE(MP_QSTR_uzlibdef, mp_module_uzlibdef, 1);
