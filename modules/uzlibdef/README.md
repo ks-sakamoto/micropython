@@ -60,3 +60,9 @@ make USER_C_MODULES=~/esp32/modules/micropython.cmake
 PORT=/dev/ttyS* BAUD=921600 make erase
 PORT=/dev/ttyS* BAUD=921600 make deploy
 """
+
+--------------
+# 注意点
+- MicroPythonは最新のバージョンをクローンしてくる（modulesディレクトリはこれを使う）
+- MicroPythonのアップデートでmodulesディレクトリの内容を一部変更しなければならない場合がある
+  - 例: 2022/12/8の時点ではmoduuzlibdef.cとmicropython.mkの一部を変更しないと使えなかった
